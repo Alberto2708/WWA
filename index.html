@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Wide Art</title>
+   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/cs s?family=Montserrat:400,700" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cirrus-ui/dist/cirrus.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <script src="wwa.js"></script>
+    <div id="p5"></div>
+
+    <div class = "Title">
+        <h1>World Wide Art</h1>
+        <p>Explore the beauty of art from around the world.</p>
+    </div>
+
+    <div  id="imagen" class="content">
+        <div class = "imagen">
+
+            <img :src=imgUrl></img>
+            <div class="infoimagen">
+            <h2>{{tituloObra}}</h2>
+            <h3>{{autor}}</h2>
+            <p>{{descripcion}}</p>      
+            </div>
+
+        <br></br>
+        </div>
+        <button @click="updateInfo()" class="explore-button">Explore</button>
+    </div>
+
+    <script type="text/javascript">
+
+        var app = new Vue({
+
+            el: '#imagen',
+
+            data:{
+                tituloObra: "Bienvenido a WWA",
+                autor: "Para comenzar presiona el botón",
+                descripcion: "Creado por Carlos Alberto Mentado Reyes \n Matricula: A01276065",
+                url: "http://localhost:3000/",
+                imgUrl: "https://www.nga.gov/content/dam/ngaweb/press/acquisitions/2021/stein/lrg-bearden.jpg"
+            },
+
+            methods:{
+                updateInfo: async function(){
+                    console.log(myp5);
+                    const response = await fetch(this.url);
+                    const info = await response.json();
+                    this.tituloObra = info.obra;
+                    this.autor = info.artista;
+                    this.descripcion = info.descripcion;
+                    this.imgUrl = info.imageurl;
+                    this.url = myp5.changeIndex(this.url);
+                    myp5.changeBackgroundColor();
+                }
+
+
+            },
+
+            watch:{
+            }
+
+        })
+
+
+    </script>
+</body>
+</html>
